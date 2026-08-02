@@ -1,25 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:t_store/core/supabase/supabase_service.dart';
-import 'package:t_store/core/dependency_injection/service_locator.dart';
-import 'package:t_store/core/utils/service_locator/service_locator.dart'
-    as old_locator;
-import 'package:t_store/t_store.dart';
+import 'core/config/app_environment.dart';
+import 'core/supabase/supabase_service.dart';
+import 'features/souq_derb/data/supabase_souq_derb_repository.dart';
+import 'features/souq_derb/presentation/souq_derb_app.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Load environment variables
-  await dotenv.load(fileName: '.env');
-
-  // Initialize Supabase
+  final config=AppConfig.fromDefines(fallback:AppEnvironment.development);
+  config.validate();
   await SupabaseService.initialize();
-
-  // Setup dependency injection (new Supabase-based services)
-  await setupServiceLocator();
-
-  // Setup old service locator (for backward compatibility with shop features)
-  old_locator.setupOldServiceLocator();
-
-  runApp(const TStore());
+  runApp(SouqDerbApp(repository:SupabaseSouqDerbRepository(SupabaseService.instance),config:config));
 }
