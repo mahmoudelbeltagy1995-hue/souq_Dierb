@@ -10,11 +10,12 @@ abstract final class EgyptianFormatters {
   /// Returns a canonical Egyptian mobile number (`01XXXXXXXXX`) or null.
   static String? normalizeMobile(String input) {
     final digits = input.replaceAll(RegExp(r'\D'), '');
-    final local = digits.startsWith('0020')
+    var local = digits.startsWith('0020')
         ? digits.substring(4)
         : digits.startsWith('20')
             ? digits.substring(2)
             : digits;
+    if (RegExp(r'^1[0125]\d{8}$').hasMatch(local)) local = '0$local';
     return RegExp(r'^01[0125]\d{8}$').hasMatch(local) ? local : null;
   }
 
