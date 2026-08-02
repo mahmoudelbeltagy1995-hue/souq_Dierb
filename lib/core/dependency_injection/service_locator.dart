@@ -96,12 +96,22 @@ import 'package:t_store/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:t_store/features/notifications/data/repositories/notification_repository_impl.dart';
 import 'package:t_store/features/notifications/domain/repositories/notification_repository.dart';
 import 'package:t_store/features/notifications/presentation/cubit/notifications_cubit.dart';
+import 'package:t_store/features/marketplace/data/repositories/marketplace_repository_impl.dart';
+import 'package:t_store/features/marketplace/domain/repositories/marketplace_repository.dart';
+import 'package:t_store/features/checkout/data/repositories/secure_checkout_repository_impl.dart';
+import 'package:t_store/features/checkout/domain/repositories/secure_checkout_repository.dart';
 
 final sl = GetIt.instance;
 
 Future<void> setupServiceLocator() async {
   // ==================== Core ====================
   sl.registerLazySingleton<SupabaseService>(() => SupabaseService.instance);
+  sl.registerLazySingleton<MarketplaceRepository>(
+    () => MarketplaceRepositoryImpl(supabaseService: sl()),
+  );
+  sl.registerLazySingleton<SecureCheckoutRepository>(
+    () => SecureCheckoutRepositoryImpl(supabaseService: sl()),
+  );
 
   // ==================== Auth ====================
   // Repository

@@ -5,11 +5,19 @@ class SupabaseTables {
   // User related
   static const String profiles = 'profiles';
   static const String addresses = 'addresses';
+  static const String customerAddresses = 'customer_addresses';
+  static const String serviceAreas = 'service_areas';
 
   // Products related
   static const String categories = 'categories';
   static const String brands = 'brands';
   static const String products = 'products';
+  static const String stores = 'stores';
+  static const String storeCategories = 'store_categories';
+  static const String storeServiceAreas = 'store_service_areas';
+  static const String storeProductCategories = 'store_product_categories';
+  static const String productOptionGroups = 'product_option_groups';
+  static const String productOptions = 'product_options';
   static const String productVariations = 'product_variations';
 
   // Shopping related
@@ -20,9 +28,13 @@ class SupabaseTables {
   // Orders related
   static const String orders = 'orders';
   static const String orderItems = 'order_items';
+  static const String orderItemOptions = 'order_item_options';
+  static const String inventoryMovements = 'inventory_movements';
+  static const String merchantSubscriptions = 'merchant_subscriptions';
 
   // Reviews
   static const String reviews = 'reviews';
+  static const String storeReviews = 'store_reviews';
 
   // Marketing
   static const String banners = 'banners';
