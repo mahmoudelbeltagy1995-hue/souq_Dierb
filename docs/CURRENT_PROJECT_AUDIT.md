@@ -98,7 +98,7 @@
 - `geolocator` و`geocoding` و`permission_handler` موجودة رغم أن الخرائط اختيارية للمرحلة الأولى؛ يجب عدم طلب صلاحية الموقع تلقائيًا.
 - اسم `.env` مدرج كـasset؛ يحتوي فقط publishable Supabase key في العميل، ويحظر service role منعًا تامًا.
 - لا توجد GitHub Actions في النسخة المفحوصة.
-- Flutter SDK غير مثبت في بيئة العمل الحالية، ولذلك تعذر تنفيذ `flutter pub get/analyze/test/build` في لحظة التدقيق.
+- لم يكن Flutter SDK مثبتًا عند التدقيق الأولي. نُزّل Flutter stable لاحقًا داخل `/workspace/flutter-sdk`، لكن تشغيل الأداة حُظر لأن Flutter حاول الوصول تلقائيًا إلى cloud metadata endpoint؛ لذلك لم يُسمح بإكمال `pub get/analyze/test/build` في هذه البيئة.
 
 ## خطة التحويل
 
@@ -146,4 +146,4 @@
 
 - 2026-08-02: استيراد المستودع وإنشاء `feature/souq-derb`.
 - 2026-08-02: فحص البنية والاعتماديات وSupabase والاختبارات وAndroid.
-- 2026-08-02: اكتشاف غياب Flutter SDK من بيئة التنفيذ وتسجيله كعائق تحقق، لا كعائق لتطوير الملفات.
+- 2026-08-02: تنزيل Flutter stable، ثم توقف التحقق بسبب منع آمن لمحاولة وصول الأداة إلى cloud metadata endpoint.
