@@ -4,6 +4,15 @@
 !.env.example
 !.env.demo.example
 !.env.production.example
+!.env.development.example
+
+# Signing credentials and private keys
+*.jks
+*.keystore
+*.p12
+*.pem
+android/key.properties
+key.properties
 
 # Miscellaneous
 *.class
