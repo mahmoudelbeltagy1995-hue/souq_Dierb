@@ -10,17 +10,28 @@
 
 ## الإعداد
 
-1. انسخ `.env.example` إلى `.env` وأضف `SUPABASE_URL` و`SUPABASE_ANON_KEY` العامة فقط.
+1. مرّر `SUPABASE_URL` و`SUPABASE_ANON_KEY` العامة فقط باستخدام `--dart-define`؛ لا تُحفظ الأسرار في ملفات أو Git.
 2. طبّق ملفات `supabase/migrations` بالترتيب عبر Supabase CLI حديث.
 3. شغّل `supabase/seed.sql` في بيئة التطوير لإضافة المناطق وأقسام المتاجر.
 4. أنشئ حسابات الاختبار كما في `docs/TEST_ACCOUNTS.md`.
 
 ```bash
 flutter pub get
-flutter run --flavor development -t lib/main_development.dart
+flutter run --flavor development -t lib/main_development.dart \
+  --dart-define=APP_ENV=development \
+  --dart-define=SUPABASE_URL=https://PROJECT.supabase.co \
+  --dart-define=SUPABASE_ANON_KEY=PUBLIC_ANON_KEY
 flutter analyze
 flutter test
 ```
+
+للتجربة المحلية فورًا دون بيانات وهمية داخل نسخة الإنتاج:
+
+```bash
+flutter run --flavor development -t lib/main_demo.dart
+```
+
+حسابات Demo: `customer@souqderb.demo` و`merchant@souqderb.demo` و`pending@souqderb.demo` و`admin@souqderb.demo`، وكلمة المرور `123456`.
 
 تعليمات APK/AAB في `docs/ANDROID_BUILD.md`.
 
@@ -42,4 +53,4 @@ customer وmerchant وadmin منفذة في قاعدة البيانات. staff �
 
 ## القيود الحالية والمرحلة التالية
 
-واجهات السوق ولوحة التاجر ما زالت قيد التحويل، وFCM غير مفعّل. التالي هو إكمال onboarding ولوحات العميل/التاجر، ربط السلة الجديدة، اختبار Supabase محليًا، ثم بناء APK تجريبي. راجع `docs/PHASE_1_COMPLETION_REPORT.md` للحالة الدقيقة.
+FCM غير مفعّل، ورفع الصور يحتاج إعداد Storage الخارجي. التالي هو تطبيق migrations على مشروع Supabase المخصص لسوق ديرب، تشغيل Security/Performance Advisors، ثم إخراج APK/AAB من بيئة تسمح لـGradle Plugin Portal. راجع `docs/PHASE_1_COMPLETION_REPORT.md` للحالة الدقيقة.
