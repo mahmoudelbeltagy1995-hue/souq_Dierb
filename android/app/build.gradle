@@ -31,6 +31,21 @@ android {
     }
     flavorDimensions "default"
 productFlavors {
+    customer {
+        dimension "default"
+        applicationId = "com.souqderb.customer"
+        resValue "string", "app_name", "سوق ديرب"
+    }
+    merchant {
+        dimension "default"
+        applicationId = "com.souqderb.merchant"
+        resValue "string", "app_name", "سوق ديرب للتجار"
+    }
+    demo {
+        dimension "default"
+        applicationId = "com.souqderb.demo"
+        resValue "string", "app_name", "سوق ديرب - Demo"
+    }
     production {
         dimension "default"
         resValue "string", "app_name", "سوق ديرب"

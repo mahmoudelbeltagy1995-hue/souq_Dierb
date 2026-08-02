@@ -11,12 +11,16 @@ import 'screens/merchant_admin_screens.dart';
 import 'widgets/common.dart';
 
 class SouqDerbApp extends StatelessWidget {
-  final SouqDerbRepository repository; final AppConfig config;
-  const SouqDerbApp({super.key,required this.repository,required this.config});
+  final SouqDerbRepository repository; final AppConfig config; final AppAudience audience;
+  const SouqDerbApp({super.key,required this.repository,required this.config,this.audience=AppAudience.all});
   @override Widget build(BuildContext context)=>BlocProvider(create:(_)=>SouqDerbCubit(repository)..bootstrap(),child:MaterialApp(
     title:'سوق ديرب',debugShowCheckedModeBanner:false,locale:const Locale('ar','EG'),
     supportedLocales:const [Locale('ar','EG')],theme:ThemeData(useMaterial3:true,colorScheme:ColorScheme.fromSeed(seedColor:souqGreen),scaffoldBackgroundColor:souqBg,fontFamily:'Poppins',inputDecorationTheme:const InputDecorationTheme(border:OutlineInputBorder(),filled:true,fillColor:Colors.white),filledButtonTheme:FilledButtonThemeData(style:FilledButton.styleFrom(minimumSize:const Size.fromHeight(52)))),
-    home:AppGate(config:config)));
+    home:AppGate(config:config,audience:audience)));
 }
 
-class AppGate extends StatelessWidget{final AppConfig config;const AppGate({super.key,required this.config});@override Widget build(BuildContext context)=>BlocConsumer<SouqDerbCubit,SouqDerbState>(listenWhen:(a,b)=>a.error!=b.error&&b.error!=null,listener:(context,state){ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(state.error!),action:SnackBarAction(label:'حسنًا',onPressed:context.read<SouqDerbCubit>().clearError)));},builder:(context,state){if(state.booting)return const Scaffold(body:LoadingView(text:'نجهز سوق ديرب...'));if(state.user==null)return AuthLandingScreen(isDemo:config.isDemo);return switch(state.user!.role){AppRole.customer=>const CustomerShell(),AppRole.merchant=>const MerchantGate(),AppRole.admin=>const AdminShell(),AppRole.staff||AppRole.driver=>const Scaffold(body:EmptyView(icon:Icons.construction,title:'قريبًا',subtitle:'هذه المساحة مجهزة للمرحلة التالية'))};});}
+enum AppAudience { customer, merchant, all }
+
+class AppGate extends StatelessWidget{final AppConfig config;final AppAudience audience;const AppGate({super.key,required this.config,required this.audience});@override Widget build(BuildContext context)=>BlocConsumer<SouqDerbCubit,SouqDerbState>(listenWhen:(a,b)=>a.error!=b.error&&b.error!=null,listener:(context,state){ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(state.error!),action:SnackBarAction(label:'حسنًا',onPressed:context.read<SouqDerbCubit>().clearError)));},builder:(context,state){if(state.booting)return const Scaffold(body:LoadingView(text:'نجهز سوق ديرب...'));if(state.user==null)return AuthLandingScreen(isDemo:config.isDemo);if(audience==AppAudience.customer&&state.user!.role!=AppRole.customer)return const _WrongApp();if(audience==AppAudience.merchant&&state.user!.role==AppRole.customer)return const _WrongApp();return switch(state.user!.role){AppRole.customer=>const CustomerShell(),AppRole.merchant=>const MerchantGate(),AppRole.admin=>const AdminShell(),AppRole.staff||AppRole.driver=>const Scaffold(body:EmptyView(icon:Icons.construction,title:'قريبًا',subtitle:'هذه المساحة مجهزة للمرحلة التالية'))};});}
+
+class _WrongApp extends StatelessWidget{const _WrongApp();@override Widget build(BuildContext context)=>Scaffold(body:EmptyView(icon:Icons.apps,title:'هذا الحساب لتطبيق آخر',subtitle:'استخدم تطبيق سوق ديرب المناسب لحسابك',onRetry:()=>context.read<SouqDerbCubit>().signOut()));}
