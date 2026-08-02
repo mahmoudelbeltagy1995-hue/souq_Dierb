@@ -4,17 +4,17 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/logos/t-store-splash-logo-black.png"
+  image_path: "assets/logos/souq-derb-logo.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true
-    image_path: "assets/logos/t-store-splash-logo-black.png"
-    background_color: "#hexcode"
-    theme_color: "#hexcode"
+    image_path: "assets/logos/souq-derb-logo.png"
+    background_color: "#FFF9ED"
+    theme_color: "#086A4B"
   windows:
     generate: true
-    image_path: "assets/logos/t-store-splash-logo-black.png"
+    image_path: "assets/logos/souq-derb-logo.png"
     icon_size: 48 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "assets/logos/t-store-splash-logo-black.png"
+    image_path: "assets/logos/souq-derb-logo.png"

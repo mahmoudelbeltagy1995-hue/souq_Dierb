@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.t_store"
+    namespace = "com.souqderb.app"
     compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.t_store"
+        applicationId = "com.souqderb.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -33,18 +33,18 @@ android {
 productFlavors {
     production {
         dimension "default"
-        resValue "string", "app_name", "T-Store"
+        resValue "string", "app_name", "سوق ديرب"
     }
     development {
         dimension "default"
         applicationIdSuffix ".dev"
-        resValue "string", "app_name", "T-Store Dev"
+        resValue "string", "app_name", "سوق ديرب - تجريبي"
     }
 }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.debug
+            // Configure release signing outside source control before publishing.
         }
     }
 }

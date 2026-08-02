@@ -78,7 +78,7 @@ class SupabaseService {
   Future<bool> signInWithGoogle() async {
     return await client.auth.signInWithOAuth(
       OAuthProvider.google,
-      redirectTo: 'io.supabase.tstore://login-callback/',
+      redirectTo: 'com.souqderb.app://login-callback/',
     );
   }
 
@@ -86,7 +86,7 @@ class SupabaseService {
   Future<bool> signInWithFacebook() async {
     return await client.auth.signInWithOAuth(
       OAuthProvider.facebook,
-      redirectTo: 'io.supabase.tstore://login-callback/',
+      redirectTo: 'com.souqderb.app://login-callback/',
     );
   }
 
@@ -94,7 +94,7 @@ class SupabaseService {
   Future<bool> signInWithApple() async {
     return await client.auth.signInWithOAuth(
       OAuthProvider.apple,
-      redirectTo: 'io.supabase.tstore://login-callback/',
+      redirectTo: 'com.souqderb.app://login-callback/',
     );
   }
 

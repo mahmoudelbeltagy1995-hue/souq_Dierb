@@ -1,5 +1,5 @@
 name: t_store
-description: "T Store"
+description: "سوق ديرب - سوق محلي متعدد المتاجر لديرب نجم والقرى التابعة"
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -10,6 +10,8 @@ environment:
 
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
 
   # UI
