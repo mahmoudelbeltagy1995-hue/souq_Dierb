@@ -6,8 +6,8 @@ import 'features/souq_derb/presentation/souq_derb_app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final config=AppConfig.fromEnvironment();
+  final config = AppConfig.fromDefines(fallback: AppEnvironment.development);
   config.validate();
-  await SupabaseService.instance.initialize(url:config.supabaseUrl,anonKey:config.supabaseAnonKey);
-  runApp(SouqDerbApp(repository:SupabaseSouqDerbRepository(SupabaseService.instance),config:config,audience:AppAudience.customer));
+  await SupabaseService.initialize();
+  runApp(SouqDerbApp(repository: SupabaseSouqDerbRepository(SupabaseService.instance), config: config, audience: AppAudience.customer));
 }
