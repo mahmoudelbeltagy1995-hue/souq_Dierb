@@ -105,15 +105,14 @@ class SouqDerbCubit extends Cubit<SouqDerbState> {
 
   Future<bool> addToCart(CartLine line, {bool replace = false}) async {
     final existingStore = state.cartStoreId;
-    if (existingStore != null && existingStore != line.product.storeId && !replace) return false;
+    if (existingStore != null && existingStore != line.product.storeId && !replace) {
+      return false;
+    }
     final lines = replace ? [line] : (List<CartLine>.from(state.cart)..add(line));
     await repository.saveCart(lines);
     emit(state.copyWith(cart: lines));
     return true;
   }
-
-  bool _sameOptions(List<ProductOption> a, List<ProductOption> b) =>
-      a.length == b.length && a.every((x) => b.any((y) => y.id == x.id));
 
   Future<void> updateQuantity(int index, int quantity) async {
     final lines = List<CartLine>.from(state.cart);
@@ -134,8 +133,20 @@ class SouqDerbCubit extends Cubit<SouqDerbState> {
   Future<OrderData?> checkout({required CustomerAddress address, String? note}) async {
     OrderData? order;
     await _run(() async {
-      if (state.cart.isEmpty) throw const RepositoryException('السلة فارغة');
-      order = await repository.checkout(items: state.cart, address: address, note: note);
+      if (state.cart.isEmpty) {
+        throw const RepositoryException('السلة فارغة');
+      }
+      final storeId = state.cartStoreId;
+      if (storeId == null) {
+        throw const RepositoryException('Store ID not found');
+      }
+      order = await repository.checkout(
+        storeId: storeId,
+        address: address,
+        lines: state.cart,
+        idempotencyKey: '${state.user!.id}-${DateTime.now().microsecondsSinceEpoch}',
+        note: note,
+      );
       await repository.saveCart([]);
       emit(state.copyWith(cart: const []));
     });
